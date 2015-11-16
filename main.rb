@@ -19,8 +19,8 @@ configure :production do
   )
 end
 
-require './models/init'
-require './helpers/init'
-require './routes/init'
+require './server/models/init'
+require './server/helpers/init'
+require './server/routes/init'
 
 DataMapper.finalize 
