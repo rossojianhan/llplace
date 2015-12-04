@@ -73,6 +73,22 @@ CREATE TABLE activities (
   photo_url text
 );
 
+
+DROP SEQUENCE IF EXISTS activity_photos_seq;
+CREATE SEQUENCE activity_photos_seq
+  START WITH 1
+  INCREMENT BY 1
+  NO MINVALUE
+  NO MAXVALUE
+  CACHE 1;
+
+DROP TABLE IF EXISTS activity_photos;
+CREATE TABLE activity_photos (
+  id integer DEFAULT nextval('activity_photos_seq'::regclass) NOT NULL,
+  activity_id integer,
+  photo_url text
+);
+
 DROP SEQUENCE city_seq;
 CREATE SEQUENCE city_seq
     START WITH 1
@@ -87,4 +103,66 @@ CREATE TABLE city (
   name text NOT NULL
 );
 
+DROP SEQUENCE IF EXISTS purchase_seq;
+CREATE SEQUENCE purchase_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
+DROP TABLE IF EXISTS purchases;
+CREATE TABLE purchases (
+  id integer DEFAULT nextval('purchase_seq'::regclass) NOT NULL,
+  activity_id integer,
+  buyer_id integer,
+  start_date timestamp with time zone NOT NULL,
+  end_date timestamp with time zone NOT NULL,
+  payment_date timestamp with time zone NOT NULL,
+  duration integer,
+  payment_total numeric,
+  currency_type_id integer,
+  status_id integer,
+  payment_method_id integer
+);
+
+
+DROP SEQUENCE IF EXISTS chat_seq;
+CREATE SEQUENCE chat_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP TABLE IF EXISTS chats;
+CREATE TABLE chats (
+  id integer DEFAULT nextval('chat_seq'::regclass) NOT NULL,
+  activity_id integer,
+  buyer_id integer,
+  status integer
+);
+
+
+DROP SEQUENCE IF EXISTS message_seq;
+CREATE SEQUENCE message_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP TABLE IF EXISTS messages;
+CREATE TABLE messages (
+  id integer DEFAULT nextval('chat_seq'::regclass) NOT NULL,
+  chat_id integer,
+  sender_id integer,
+  contents text,
+  seen boolean
+);
+
+DROP TABLE IF EXISTS payment_method;
+CREATE TABLE payment_method (
+  id integer NOT NULL,
+  payment_type character varying(8)
+);
