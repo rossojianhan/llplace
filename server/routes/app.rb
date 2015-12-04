@@ -1,4 +1,5 @@
 # encoding: utf-8
-get '/' do 
-	File.read "#{Dir.pwd}/app/login/login.html"
+get "/" do
+    content_type 'html'
+    erb :index
 end
